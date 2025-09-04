@@ -37,3 +37,22 @@ databaseChangeLog:
             tableName: dynamic_rule
             columnNames: product_id
             constraintName: ux_dynamic_rule_product_id
+  - changeSet:
+      id: 0002-create-rule-stat
+      author: team
+      changes:
+        - createTable:
+            tableName: rule_stat
+            columns:
+              - column:
+                  name: rule_id
+                  type: VARCHAR(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: count
+                  type: BIGINT
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
