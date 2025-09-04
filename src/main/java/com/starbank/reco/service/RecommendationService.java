@@ -3,6 +3,7 @@ package com.starbank.reco.service;
 
 import com.starbank.reco.dto.ProductRecommendationDto;
 import com.starbank.reco.rules.RecommendationRuleSet;
+import com.starbank.reco.rules.dynamic.DynamicRuleService;
 import org.springframework.stereotype.Service;
 
 
@@ -13,19 +14,22 @@ import java.util.UUID;
 
 @Service
 public class RecommendationService {
-    private final List<RecommendationRuleSet> rules;
+    private final List<RecommendationRuleSet> staticRules;
+    private final DynamicRuleService dynamicRuleService;
 
 
-    public RecommendationService(List<RecommendationRuleSet> rules) {
-        this.rules = rules;
+    public RecommendationService(List<RecommendationRuleSet> staticRules, DynamicRuleService dynamicRuleService) {
+        this.staticRules = staticRules;
+        this.dynamicRuleService = dynamicRuleService;
     }
 
 
     public List<ProductRecommendationDto> recommend(UUID userId) {
         List<ProductRecommendationDto> out = new ArrayList<>();
-        for (var r : rules) {
-            r.evaluate(userId).ifPresent(out::add);
-        }
+
+        out.addAll(dynamicRuleService.recommend(userId));
+
+        for (RecommendationRuleSet r : staticRules) r.evaluate(userId).ifPresent(out::add);
         return out;
     }
 }
