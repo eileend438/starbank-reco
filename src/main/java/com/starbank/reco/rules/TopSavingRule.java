@@ -36,8 +36,8 @@ public class TopSavingRule implements RecommendationRuleSet {
         boolean inflowGtOutflow = debit.depositSum().compareTo(debit.spendSum()) > 0;
 
 
-        boolean ok = hasDebit && deposit50k && inflowGtOutflow;
-        if (!ok) return Optional.empty();
+        boolean isCondition = hasDebit && deposit50k && inflowGtOutflow;
+        if (!isCondition) return Optional.empty();
 
 
         var p = ProductCatalog.TOP_SAVING;

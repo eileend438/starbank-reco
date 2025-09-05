@@ -31,8 +31,8 @@ public class Invest500Rule implements RecommendationRuleSet {
         BigDecimal savingDeposit = agg.getOrDefault("SAVING", TxAgg.EMPTY).depositSum();
 
 
-        boolean ok = hasDebit && !hasInvest && savingDeposit.compareTo(SAVING_MIN) > 0;
-        if (!ok) return Optional.empty();
+        boolean isCondition = hasDebit && !hasInvest && savingDeposit.compareTo(SAVING_MIN) > 0;
+        if (!isCondition) return Optional.empty();
 
 
         var p = ProductCatalog.INVEST_500;
